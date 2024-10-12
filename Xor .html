@@ -1,0 +1,114 @@
+<html>
+<head>
+    <title>Encrypter / Decrypter</title>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .author {
+            font-style: italic;
+        }
+        .description {
+            margin-top: 20px;
+        }
+        .inputs, .output {
+            margin-top: 20px;
+            border: 1px solid #000;
+            padding: 10px;
+        }
+        .inputs label {
+            display: block;
+            margin-top: 10px;
+        }
+        .inputs input[type="text"], .inputs textarea, .output textarea {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .inputs textarea, .output textarea {
+            height: 100px;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+        .buttons input {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Encrypter / Decrypter</h1>
+        <p class="author">Author: Luca Hernandez</p>
+        <div class="description">
+            <p>This program will encrypt and decrypt files using a simple XOR based key cypher.</p>
+            <p>Encryption works by taking each character in the input text, treating it as an integer, and exclusive or'ing (XOR) it with the next character in the key phrase (also treated as an integer). The integers are output, comma separated, in the output text area.</p>
+            <p>Decryption works in the inverse manner. Each integer is read from the comma separated list, XOR'ed with the next character in the key phrase, and then converted back to a character and appended to the output text area.</p>
+        </div>
+        <div class="inputs">
+            <p>Inputs:</p>
+            <label for="key">Encryption/decryption key:</label>
+            <input type="text" id="key" value="password">
+            <label for="inputText">Text to encrypt or decrypt:</label>
+            <textarea id="inputText">Type something here...</textarea>
+            <div class="buttons">
+                <input type="button" value="Encrypt" onclick="encrypt()">
+                <input type="button" value="Decrypt" onclick="decrypt()">
+                <input type="button" value="Swap in/out" onclick="swapInOut()">
+                <input type="button" value="Run tests" onclick="runTests()">
+            </div>
+        </div>
+        <div class="output">
+            <p>Output:</p>
+            <textarea id="outputText"></textarea>
+        </div>
+    </div>
+    <script>
+        function xorEncryptDecrypt(input, key) {
+            let output = [];
+            for (let i = 0; i < input.length; i++) {
+                let charCode = input.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+                output.push(charCode);
+            }
+            return output;
+        }
+
+        function encrypt() {
+            let key = document.getElementById('key').value;
+            let inputText = document.getElementById('inputText').value;
+            let encrypted = xorEncryptDecrypt(inputText, key);
+            document.getElementById('outputText').value = encrypted.join(',');
+        }
+
+        function decrypt() {
+            let key = document.getElementById('key').value;
+            let inputText = document.getElementById('inputText').value;
+            let encryptedArray = inputText.split(',').map(Number);
+            let decrypted = xorEncryptDecrypt(String.fromCharCode(...encryptedArray), key);
+            document.getElementById('outputText').value = String.fromCharCode(...decrypted);
+        }
+
+        function swapInOut() {
+            let inputText = document.getElementById('inputText').value;
+            let outputText = document.getElementById('outputText').value;
+            document.getElementById('inputText').value = outputText;
+            document.getElementById('outputText').value = inputText;
+        }
+
+        function runTests() {
+            let key = "password";
+            let testString = "Hello, World!";
+            let encrypted = xorEncryptDecrypt(testString, key).join(',');
+            let decrypted = String.fromCharCode(...xorEncryptDecrypt(String.fromCharCode(...encrypted.split(',').map(Number)), key));
+            alert("Test String: " + testString + "\nEncrypted: " + encrypted + "\nDecrypted: " + decrypted);
+        }
+    </script>
+</body>
+</html>
