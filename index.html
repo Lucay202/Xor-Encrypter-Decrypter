@@ -95,7 +95,7 @@
 <body>
     <div class="container">
         <h1>Encrypter / Decrypter</h1>
-        <p class="author">Author: Luca Hernandez</p>
+        <p class="author">Made by: Luca Hernandez</p>
         <div class="description">
             <p>This program will encrypt and decrypt files using a simple XOR based key cypher.</p>
             <p>Encryption works by taking each character in the input text, treating it as an integer, and exclusive or'ing (XOR) it with the next character in the key phrase (also treated as an integer). The integers are output, comma separated, in the output text area.</p>
@@ -106,7 +106,7 @@
             <label for="key">Encryption/decryption key:</label>
             <input type="text" id="key" value="password">
             <label for="inputText">Text to encrypt or decrypt:</label>
-            <textarea id="inputText" style="width: 936px; height: 71px;">Type something here...</textarea>
+            <textarea id="inputText" style="width: 936px; height: 71px;"></textarea>
             <div class="buttons">
                 <input type="button" value="Encrypt" onclick="encrypt()">
                 <input type="button" value="Decrypt" onclick="decrypt()">
